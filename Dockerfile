@@ -13,4 +13,7 @@ RUN apk --no-cache add git \
     && git clone -b develop https://github.com/phpredis/phpredis.git /usr/src/php/ext/redis \
     && docker-php-ext-install redis
 
+# give it the same user ID as the main user
+RUN usermod -u 1000 www-data
+
 COPY php.ini /usr/local/etc/php/conf.d/php.ini
