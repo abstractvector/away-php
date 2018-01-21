@@ -14,6 +14,7 @@ RUN apk --no-cache add git \
     && docker-php-ext-install redis
 
 # give it the same user ID as the main user
-RUN usermod -u 1000 www-data
+RUN apk add --no-cache shadow \
+    && usermod -u 1000 www-data
 
 COPY php.ini /usr/local/etc/php/conf.d/php.ini
