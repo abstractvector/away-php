@@ -1,12 +1,16 @@
-FROM php:fpm-alpine
+FROM php:7.4-fpm-alpine
 
-# install PHP extensions
-RUN docker-php-ext-install mysqli
-
-RUN apk --no-cache add coreutils freetype-dev libjpeg-turbo-dev libltdl libpng-dev \
-    && docker-php-ext-install -j$(nproc) iconv \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install -j$(nproc) gd
+RUN apk --no-cache add coreutils freetype-dev libjpeg-turbo-dev libltdl libpng-dev libzip-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) \
+        gd \
+        bcmath \
+		exif \
+		gd \
+        iconv \
+		mysqli \
+		opcache \
+		zip
 
 # install the redis extension which isn't available in PECL
 RUN apk --no-cache add git \
